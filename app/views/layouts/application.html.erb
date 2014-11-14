@@ -8,6 +8,12 @@
 </head>
 <body>
 
+<script><%= yield(:javascript) %></script>
+<script><%= yield(:javascript2) %></script>
+<pre>Layout yield :javascript: <%= yield(:javascript).inspect %></pre>
+<pre>Layout yield :javascript2: <%= yield(:javascript2).inspect %></pre>
+
+
 <%= yield %>
 
 </body>
