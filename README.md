@@ -10,14 +10,16 @@ A demonstration of a problem with content_for or capture.
 
 ### Results
 
-Layout yield :javascript: ""
-Layout yield :javascript2: ""
-ContentTest#example
+    # no js alerts.
 
-Find me in app/views/content_test/example.html.erb
+    Layout yield :javascript: ""
+    Layout yield :javascript2: ""
+    ContentTest#example
 
-Content for :javascript: "  alert('hello');\n"
-Content for :javascript2: "  alert('from a render_to_string');\n"
+    Find me in app/views/content_test/example.html.erb
+
+    Content for :javascript: "  alert('hello');\n"
+    Content for :javascript2: "  alert('from a render_to_string');\n"
 
 
 ## Rails 4
@@ -29,16 +31,16 @@ Content for :javascript2: "  alert('from a render_to_string');\n"
 
 ### Results
 
- # two popup alerts
- # 1) hello
- # 2) from a render_to_string
+    # two popup alerts
+    # 1) hello
+    # 2) from a render_to_string
 
-Layout yield :javascript: "  alert('hello');\n"
-Layout yield :javascript2: "  alert('from a render_to_string');\n"
-ContentTest#example
+    Layout yield :javascript: "  alert('hello');\n"
+    Layout yield :javascript2: "  alert('from a render_to_string');\n"
+    ContentTest#example
 
-Find me in app/views/content_test/example.html.erb
+    Find me in app/views/content_test/example.html.erb
 
-Content for :javascript: "  alert('hello');\n"
-Content for :javascript2: "  alert('from a render_to_string');\n"
+    Content for :javascript: "  alert('hello');\n"
+    Content for :javascript2: "  alert('from a render_to_string');\n"
 
