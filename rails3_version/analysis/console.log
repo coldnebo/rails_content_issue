@@ -1219,6 +1219,21 @@ BLOC
 
 # rats.  it doesn't change.  does something within it change?  WTF!?!
 
+# ok, let's take another approach... what if the objects are still around at BLOC, even though one of them can't be accessed the normal way...
+
+BLOC
+[1] pry(#<#<Class:0x007ff58110daf0>>)> ObjectSpace.each_object(ActionView::OutputFlow) {|o| p o}
+#<ActionView::OutputFlow:0x007ff580ff9740 @content={:javascript=>"  alert('hello');\n", :javascript2=>"  // example\nalert('from a render_to_string');\n"}>
+#<ActionView::OutputFlow:0x007ff581011a70 @content={:layout=>"<h1>ContentTest#example</h1>\n<p>Find me in app/views/content_test/example.html.erb</p>\n\n<!-- example -->\n<pre>Content for :javascript: &quot;  alert(&#x27;hello&#x27;);\\n&quot;</pre>\n\n\n<pre>Content for :javascript2: &quot;  // example\\nalert(&#x27;from a render_to_string&#x27;);\\n&quot;</pre>\n", :javascript=>"", :javascript2=>""}>
+=> 2
+
+yes, in fact, they are both there!  wow... ok.
+
+now for a countermeasure... 
+
+# seriously Rails, you're drunk, go home!
+
+
 
 # and we're done.
 
