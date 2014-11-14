@@ -1158,6 +1158,66 @@ BLOC
 # hmmm, same controller, but different view_flow instances per context?  what could be resetting view_flow after render?
 
 
+# had a nasty thought about webrick here, but no...
+ALOC
+[3] pry(#<#<Class:0x007f0dc10138c8>>)> Thread.current
+=> #<Thread:0x000000059125f8 run>
+BLOC
+[1] pry(#<#<Class:0x007f0dc10138c8>>)> Thread.current
+=> #<Thread:0x000000059125f8 run>
+
+# same thread, same controller.  no apparent change of the context... maybe time for debugger trace?
+# no wait... how about navigating to view_flow instead of just accessing it?
+
+ALOC
+[1] pry(#<#<Class:0x007fdf8510d490>>)> controller.view_context.view_flow
+=> #<ActionView::OutputFlow:0x007fdf8665ea60 @content={}>
+[2] pry(#<#<Class:0x007fdf8510d490>>)> view_flow
+=> #<ActionView::OutputFlow:0x007fdf850c1450
+ @content={:javascript=>"  alert('hello');\n", :javascript2=>"  // example\nalert('from a render_to_string');\n"}>
+BLOC
+[1] pry(#<#<Class:0x007fdf8510d490>>)> controller.view_context.view_flow
+=> #<ActionView::OutputFlow:0x007fdf87117e70 @content={}>
+[2] pry(#<#<Class:0x007fdf8510d490>>)> view_flow
+=> #<ActionView::OutputFlow:0x007fdf85102f68
+ @content=
+  {:layout=>
+    "<h1>ContentTest#example</h1>\n<p>Find me in app/views/content_test/example.html.erb</p>\n\n<!-- example -->\n<pre>Content for :javascript: &quot;  alert(&#x27;hello&#x27;);\\n&quot;</pre>\n\n\n<pre>Content for :javascript2: &quot;  // example\\nalert(&#x27;from a render_to_string&#x27;);\\n&quot;</pre>\n",
+   :javascript=>"",
+   :javascript2=>""}>
+
+
+# BINGO, something is setting view_context!!   but view_context is unmodified through the whole of console3.log... how?!?
+
+ALOC
+[2] pry(#<#<Class:0x007fbf1911ab68>>)> show-source controller.view_context
+
+From: /home/lkyrala/.rvm/gems/ruby-1.9.2-p320@rails3/gems/actionpack-3.2.17/lib/abstract_controller/rendering.rb @ line 75:
+Owner: AbstractController::Rendering
+Visibility: public
+Number of lines: 3
+
+def view_context
+  view_context_class.new(view_renderer, view_assigns, self)
+end
+
+
+# oh... my... god... wtF?!?!?!?
+# ok, maybe one of those objects changes...  self is controller, so no. view_assigns is just routes... my money is on view_renderer
+
+
+ALOC
+[13] pry(#<#<Class:0x007fbf1911ab68>>)> view_renderer.to_s
+=> "#<ActionView::Renderer:0x007fbf1911ab90>"
+[14] pry(#<#<Class:0x007fbf1911ab68>>)> controller.view_context.view_renderer.to_s
+=> "#<ActionView::Renderer:0x007fbf1911ab90>"
+BLOC
+[1] pry(#<#<Class:0x007fbf1911ab68>>)> view_renderer.to_s
+=> "#<ActionView::Renderer:0x007fbf1911ab90>"
+[2] pry(#<#<Class:0x007fbf1911ab68>>)> controller.view_context.view_renderer.to_s
+=> "#<ActionView::Renderer:0x007fbf1911ab90>"
+
+# rats.  it doesn't change.  does something within it change?  WTF!?!
 
 
 # and we're done.

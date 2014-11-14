@@ -11,8 +11,9 @@
 <!-- example -->
 <script><%= yield(:javascript) %></script>
 <script><%= yield(:javascript2) %></script>
-<script><%= content_for(:javascript2); Tracer.off %></script>
-<% binding.pry %>
+<script><%= content_for(:javascript2) %></script>
+<% # BLOC
+   binding.pry %>
 <pre>Layout yield :javascript: <%= yield(:javascript).inspect %></pre>
 <pre>Layout yield :javascript2: <%= yield(:javascript2).inspect %></pre>
 

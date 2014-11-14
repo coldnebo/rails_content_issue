@@ -11,5 +11,6 @@
 <% content_for(:javascript2) do %>
   <%= broken_helper %>
 <% end %>
-<pre>Content for :javascript2: <%= Tracer.on; content_for(:javascript2).inspect %></pre>
-<%# binding.pry %>
+<pre>Content for :javascript2: <%= content_for(:javascript2).inspect %></pre>
+<% # ALOC
+   binding.pry %>
