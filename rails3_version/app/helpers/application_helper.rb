@@ -1,3 +1,4 @@
+
 module ApplicationHelper
 
   # example
@@ -6,7 +7,11 @@ module ApplicationHelper
   end
 
   def broken_helper
-    controller.render_to_string("my_javascript", layout: false).html_safe
+    Tracer.on
+    output = controller.render_to_string("my_javascript", layout: false)
+    Tracer.off
+    output.html_safe
+    #controller.isolated_render_to_string("my_javascript", layout: false).html_safe
   end
 
 end
