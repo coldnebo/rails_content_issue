@@ -1,5 +1,6 @@
 module ApplicationHelper
 
+  # example
   def working_helper
     %{alert('hello');}.html_safe
   end
