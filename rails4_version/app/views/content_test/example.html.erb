@@ -1,0 +1,13 @@
+<h1>ContentTest#example</h1>
+<p>Find me in app/views/content_test/example.html.erb</p>
+
+<% content_for(:javascript) do %>
+  <%= working_helper %>
+<% end %>
+<pre>Content for :javascript: <%= content_for(:javascript).inspect %></pre>
+
+
+<% content_for(:javascript2) do %>
+  <%= broken_helper %>
+<% end %>
+<pre>Content for :javascript2: <%= content_for(:javascript2).inspect %></pre>
